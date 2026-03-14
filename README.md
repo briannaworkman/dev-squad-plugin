@@ -122,6 +122,13 @@ Once the plugin is available on the official marketplace, updates will be as sim
 MIT License — see LICENSE file for details.
 
 
+## Limitations
+
+- **Single-repo only** — dev-squad works within the repository you run it from. Multi-repo setups (e.g. separate frontend/backend repos or microservices across different repositories) are not currently supported. A monorepo or a well-scoped single-service issue works best.
+- **Public GitHub issues only** — the Ticket Analyst fetches issue content via the `gh` CLI, which requires the issue to be accessible with your authenticated GitHub account.
+- **Well-scoped issues work best** — very large or ambiguous issues may be flagged by the Ticket Analyst as too broad for a single PR. Breaking them into smaller issues first will get better results.
+
+
 ## Support
 
 - **Issues**: https://github.com/briannaworkman/dev-squad-plugin/issues
