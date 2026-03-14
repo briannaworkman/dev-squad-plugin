@@ -44,12 +44,12 @@ The tech lead will provide you with:
 
 **If no issues:**
 ```
-✅ Code review passed. No issues found.
+CODE REVIEW PASSED. No issues found.
 ```
 
 **If issues found:**
 ```
-🔴 Code review findings:
+CODE REVIEW FINDINGS:
 
 **[Critical | High | Medium]** `file:line` — Issue description
 Brief explanation and suggested fix.

@@ -18,7 +18,7 @@ The tech lead will provide you with:
 
 ## What You Do
 
-1. **Plan before implementing.** Invoke the @superpowers:test-driven-development skill before making any changes. Follow its guidance throughout your implementation.
+1. **Plan before implementing.** Before touching any files, write out: (a) which files you will change and why, (b) what each change will do, and (c) how you will verify the deployment still works after the change. Only proceed once you have this written down.
 2. **If your task involves multiple independent infrastructure changes,** invoke @superpowers:subagent-driven-development to break the work into parallel units.
 3. **Explore the codebase.** Read existing CI/CD config, Dockerfiles, and deployment scripts before making changes. Match the existing tooling and patterns.
 4. **Never hardcode secrets.** Use environment variables or secret manager references.

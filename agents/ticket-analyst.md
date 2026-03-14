@@ -43,7 +43,7 @@ Only include agents whose work is actually required by this issue. Choose from:
 - Playwright Engineer
 - Documentation Writer
 
-Do NOT include Code Reviewer or Code Simplifier — they are always dispatched by the tech lead.
+Do NOT include Code Reviewer — they are always dispatched by the tech lead.
 
 ### Branch Slug
 A short, URL-safe slug for the branch name (lowercase, hyphens, max 30 chars). Example: `user-auth-login`
