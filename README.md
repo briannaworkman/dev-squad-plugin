@@ -25,26 +25,13 @@ You stay in control through four checkpoints. The squad does the rest.
    git clone https://github.com/briannaworkman/dev-squad-plugin ~/dev-squad-plugin
    ```
 
-2. Register the plugin in `~/.claude/plugins/installed_plugins.json`:
-   ```json
-   {
-     "dev-squad@local": {
-       "name": "dev-squad",
-       "installPath": "~/dev-squad-plugin"
-     }
-   }
+2. Register the local marketplace and install:
+   ```
+   /plugin marketplace add ~/dev-squad-plugin
+   /plugin install dev-squad@dev-squad
    ```
 
-3. Enable it in `~/.claude/settings.json`:
-   ```json
-   {
-     "enabledPlugins": {
-       "dev-squad@local": true
-     }
-   }
-   ```
-
-4. Restart Claude Code. Verify by typing `/dev-squad` — it should autocomplete.
+3. Verify by typing `/dev-squad` — it should autocomplete.
 
 
 ## Basic Workflow
@@ -111,7 +98,21 @@ To add or modify an agent:
 
 ## Updating
 
+Pull the latest changes and reload:
+
 ```bash
+cd ~/dev-squad-plugin && git pull
+```
+
+Then in Claude Code:
+
+```
+/reload-plugins
+```
+
+Once the plugin is available on the official marketplace, updates will be as simple as:
+
+```
 /plugin update dev-squad
 ```
 

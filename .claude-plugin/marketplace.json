@@ -1,0 +1,19 @@
+{
+  "name": "dev-squad",
+  "owner": {
+    "name": "Brianna Workman",
+    "email": "hello.briworkman@gmail.com"
+  },
+  "metadata": {
+    "description": "AI engineering team orchestrator for Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "dev-squad",
+      "source": "./",
+      "description": "Spins up a full AI dev team to implement GitHub issues end-to-end and deliver a PR",
+      "version": "0.1.0",
+      "homepage": "https://github.com/briannaworkman/dev-squad-plugin"
+    }
+  ]
+}
