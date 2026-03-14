@@ -1,6 +1,6 @@
 # dev-squad
 
-AI engineering team orchestrator for Claude Code.
+Spins up a full AI dev team to implement GitHub issues end-to-end and deliver a PR.
 
 ## Usage
 

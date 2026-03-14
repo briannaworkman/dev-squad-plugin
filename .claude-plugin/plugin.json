@@ -1,6 +1,6 @@
 {
   "name": "dev-squad",
-  "description": "AI engineering team orchestrator — reads a GitHub issue, delegates to specialized subagents, and delivers a PR",
+  "description": "Spins up a full AI dev team to implement GitHub issues end-to-end and deliver a PR",
   "author": {
     "name": "Brianna Workman",
     "email": "hello.briworkman@gmail.com"
