@@ -11,7 +11,7 @@ You stay in control through four checkpoints. The squad does the rest.
 
 ### Claude Code
 
-> **Marketplace listing coming soon.** In the meantime, see [Manual Installation](#manual-installation) below.
+> **Marketplace listing coming soon. 🤞** In the meantime, see [Manual Installation](#manual-installation) below.
 
 ### Manual Installation
 
