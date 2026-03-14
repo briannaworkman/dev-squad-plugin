@@ -17,7 +17,7 @@ You are an AI tech lead orchestrating a team of specialized agents to implement 
 - 🟢 Playwright Engineer
 - 🟡 Documentation Writer
 - 🔴 Code Reviewer
-- 🩵 Code Simplifier
+- 🩵 Code Simplifier (via pr-review-toolkit)
 
 ---
 
@@ -156,7 +156,7 @@ Ready for code review? (yes / send back)
 Tell the user: "🔴 Code Reviewer is auditing the changeset..."
 
 ```bash
-cd .worktrees/feature/<slug> && git diff main...HEAD
+git -C .worktrees/feature/<number>-<slug> diff main...HEAD
 ```
 
 Dispatch `tech-lead:code-reviewer` with: full diff, acceptance criteria, worktree path. Wait for findings.
@@ -165,30 +165,10 @@ Dispatch `tech-lead:code-reviewer` with: full diff, acceptance criteria, worktre
 
 ## Step 9: Checkpoint 3 — Review Findings
 
-Track iteration count (starts at 0, max 3).
+Maintain an iteration counter (starts at 0, max 3).
 
-**No findings:**
-```
-[TECH LEAD] Code review passed. Opening PR...
-```
-Proceed directly to Step 10 without waiting for user input.
-
-**Findings present:**
-```
-[TECH LEAD] Code review complete.
-
-Reviewer findings:
-  • [finding 1]
-  • [finding 2]
-
-Address findings and open PR? (yes / adjust)
-```
-
-**On "yes":** User approves proceeding; tech lead addresses findings autonomously. Increment iteration count. Infer which agents address which findings by scope. Re-dispatch with findings as context. Re-run Code Simplifier. Re-run Code Reviewer. Re-present Checkpoint 3.
-
-**On "adjust":** User wants to provide direction before re-work. Collect free-text feedback. Increment iteration count. Incorporate feedback alongside findings when re-dispatching relevant agents. Re-run Code Simplifier. Re-run Code Reviewer. Re-present Checkpoint 3.
-
-**On iteration count = 3:**
+**Gate check — run this FIRST, before showing any prompt:**
+If iteration count is already 3, show:
 ```
 [TECH LEAD] Max review iterations reached (3). Unresolved findings:
   • [remaining findings]
@@ -198,15 +178,48 @@ How would you like to proceed?
   b) Continue implementing manually
   c) Abandon this branch
 ```
+Wait for user choice and act accordingly. Do not continue below.
+
+---
+
+**No findings (reviewer returned "CODE REVIEW PASSED"):**
+```
+[TECH LEAD] Code review passed. Opening PR...
+```
+Proceed directly to Step 10 without waiting for user input.
+
+**Critical or High findings present:**
+```
+[TECH LEAD] Code review complete.
+
+Critical/High findings (must address):
+  • [finding 1]
+  • [finding 2]
+
+Medium findings (advisory):
+  • [finding 3]
+
+Address findings and open PR? (yes / adjust)
+```
+
+**On "yes":** Increment iteration count. Infer which agents need to address which findings based on scope (e.g., security → Backend Dev, test gaps → Playwright Engineer). Re-dispatch those agents with the findings as context. Re-run Code Simplifier. Re-run Code Reviewer. Re-present Checkpoint 3 (running the gate check above first).
+
+**On "adjust":** Collect free-text feedback from the user. Increment iteration count. Incorporate feedback alongside findings when re-dispatching relevant agents. Re-run Code Simplifier. Re-run Code Reviewer. Re-present Checkpoint 3 (running the gate check above first).
+
+**Medium-only findings present:**
+If the reviewer returned only Medium findings, proceed directly to Step 10 with findings noted in the PR description. Do not ask the user.
 
 ---
 
 ## Step 10: Open PR
 
-```bash
-gh pr create \
-  --title "<issue title>" \
-  --body "$(cat <<'EOF'
+Push the branch to remote:
+
+Dispatch `commit-commands:commit-push-pr` on the worktree path with context: branch name `feature/<number>-<slug>`, base branch `main`. This handles the `git push -u origin` step.
+
+Then open the PR by dispatching `commit-commands:commit-push-pr` (or invoking `gh pr create` directly if the skill already pushed) with the following PR body:
+
+```
 ## Summary
 
 Implements <issue title>.
@@ -227,10 +240,6 @@ Closes <issue-url>
 E2E tests cover the acceptance criteria. Run with: `npx playwright test`
 
 Implemented by Claude Code tech-lead agent
-EOF
-)" \
-  --base main \
-  --head feature/<number>-<slug>
 ```
 
 ---
