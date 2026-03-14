@@ -1,40 +1,119 @@
 # dev-squad
 
-Spins up a full AI dev team to implement GitHub issues end-to-end and deliver a PR.
+`dev-squad` is a Claude Code plugin that assembles an AI engineering team to implement GitHub issues end-to-end and deliver a pull request.
 
-## Usage
+When you run `/dev-squad <github-issue-url>`, it doesn't just start writing code. A Ticket Analyst reads the issue and produces an acceptance criteria document — which you review and approve before a single line of code is written. Then the right specialists are assembled: backend, frontend, database, DevOps, Playwright, documentation — running in the optimal order, some in parallel. A Code Simplifier strips over-engineering. A Code Reviewer audits the full changeset. Then a PR lands in your repo.
 
-```
-/dev-squad <github-issue-url>
-```
+You stay in control through four checkpoints. The squad does the rest.
 
-Reads the GitHub issue, breaks it into tasks, assigns work to specialized agents, and delivers a GitHub PR.
 
-## Prerequisites
+## Installation
 
-- `pr-review-toolkit` plugin must be installed (for Code Simplifier)
-- `commit-commands` plugin must be installed (used by implementation agents to commit)
-- `superpowers` plugin must be installed (used by implementation agents for TDD and planning workflows)
-- GitHub CLI must be authenticated: `gh auth status`
+### Claude Code
+
+> **Marketplace listing coming soon.** In the meantime, see [Manual Installation](#manual-installation) below.
+
+### Manual Installation
+
+1. Clone this repo somewhere on your machine:
+   ```bash
+   git clone https://github.com/briannaworkman/dev-squad-plugin ~/dev-squad-plugin
+   ```
+
+2. Register the plugin in `~/.claude/plugins/installed_plugins.json`:
+   ```json
+   {
+     "dev-squad@local": {
+       "name": "dev-squad",
+       "installPath": "~/dev-squad-plugin"
+     }
+   }
+   ```
+
+3. Enable it in `~/.claude/settings.json`:
+   ```json
+   {
+     "enabledPlugins": {
+       "dev-squad@local": true
+     }
+   }
+   ```
+
+4. Restart Claude Code. Verify by typing `/dev-squad` — it should autocomplete.
+
+
+## Basic Workflow
+
+1. **Ticket Analysis** — A Ticket Analyst reads the GitHub issue and produces a structured plan: scope, acceptance criteria, and which agents are needed. You review and approve before any code is written. **(Checkpoint 1)**
+
+2. **Implementation** — The right specialists assemble and execute in order. Database changes run before backend logic. Backend and frontend run in parallel when both are needed. DevOps, Playwright, and Documentation follow once the core is stable.
+
+3. **Simplification** — A Code Simplifier (via `pr-review-toolkit`) audits the full changeset and removes over-engineering.
+
+4. **Code Review** — A Code Reviewer does a full audit, reporting findings by severity. Critical issues block progress; the squad iterates up to 3 times before escalating to you. **(Checkpoint 2 & 3)**
+
+5. **Pull Request** — A PR is opened with a summary of the work. **(Checkpoint 4)**
+
+The squad pauses for your approval at each checkpoint. Everything in between runs autonomously.
+
 
 ## Agent Roster
 
-| Agent | Color | Role |
-|---|---|---|
-| Ticket Analyst | Purple | Reads issue, produces acceptance criteria |
-| Backend Dev | Blue | APIs, business logic, server-side code |
-| Frontend Dev | Pink | UI, client-side logic, styling |
-| Database Engineer | Orange | Schema, migrations, queries |
-| DevOps Engineer | Gray | CI/CD, infra, deployment config |
-| Playwright Engineer | Green | End-to-end test coverage |
-| Documentation Writer | Yellow/Gold | README, API docs, changelogs |
-| Code Reviewer | Red | Full changeset audit |
-| Code Simplifier | Teal | (via pr-review-toolkit) Removes over-engineering |
+| Agent | Role |
+|---|---|
+| **Ticket Analyst** | Always runs first. Reads the issue, defines scope, produces acceptance criteria, recommends which agents are needed. |
+| **Database Engineer** | Schema changes, migrations, query optimization. Runs before backend to avoid dependency issues. |
+| **Backend Dev** | APIs, business logic, server-side code. |
+| **Frontend Dev** | UI, client-side logic, styling. Runs in parallel with Backend when both are needed. |
+| **DevOps Engineer** | CI/CD, infrastructure, deployment config. Runs after core implementation. |
+| **Playwright Engineer** | End-to-end and acceptance test coverage. |
+| **Documentation Writer** | README updates, API docs, changelogs. Runs in parallel with Playwright. |
+| **Code Simplifier** | Removes over-engineering from the full changeset. Always runs before Code Reviewer. |
+| **Code Reviewer** | Always runs last. Full changeset audit with severity-rated findings. |
 
-## Checkpoints
+Not every agent runs on every issue — the Ticket Analyst recommends which agents are needed, and after you approve the plan, the orchestrator dispatches them automatically.
 
-The dev squad pauses for your approval at:
-1. Plan — before writing any code
-2. Implementation — before code review
-3. Review findings — before opening PR
-4. Done — PR URL
+
+## Prerequisites
+
+- **GitHub CLI** authenticated: `gh auth login`
+- **[pr-review-toolkit](https://claude.ai/plugins/pr-review-toolkit)** plugin installed (provides Code Simplifier)
+- **[commit-commands](https://claude.ai/plugins/commit-commands)** plugin installed (used by agents to commit and push)
+- **[superpowers](https://claude.ai/plugins/superpowers)** plugin installed (used by agents for TDD and planning workflows)
+
+
+## Philosophy
+
+- **Human checkpoints, not human bottlenecks** — You approve the plan before code is written, review the implementation before it's scrutinized, and sign off on findings before a PR opens. Everything in between runs autonomously.
+- **Right agent for the right job** — Specialists outperform generalists. Each agent has a focused role, the tools it needs, and nothing more.
+- **Simplicity enforced, not hoped for** — Code Simplifier runs on every changeset before review. Over-engineering doesn't survive the pipeline.
+- **Quality gates, not vibes** — Code Reviewer reports findings by severity. Critical issues block the PR. The squad iterates up to three times before escalating to you.
+
+
+## Contributing
+
+Agent definitions live in `agents/`. The slash command orchestrator is in `commands/dev-squad.md`.
+
+To add or modify an agent:
+
+1. Fork the repository
+2. Edit or create the agent markdown file in `agents/`
+3. Test end-to-end with a real GitHub issue
+4. Submit a PR
+
+
+## Updating
+
+```bash
+/plugin update dev-squad
+```
+
+
+## License
+
+MIT License — see LICENSE file for details.
+
+
+## Support
+
+- **Issues**: https://github.com/briannaworkman/dev-squad-plugin/issues
