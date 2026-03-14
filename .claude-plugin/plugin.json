@@ -1,0 +1,8 @@
+{
+  "name": "tech-lead",
+  "description": "AI engineering team orchestrator — reads a GitHub issue, delegates to specialized subagents, and delivers a PR",
+  "author": {
+    "name": "Brianna Workman",
+    "email": "hello.briworkman@gmail.com"
+  }
+}
