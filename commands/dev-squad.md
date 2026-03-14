@@ -1,11 +1,11 @@
 ---
-description: AI tech lead — reads a GitHub issue, plans the work, delegates to specialized agents, and opens a PR
+description: AI dev squad — reads a GitHub issue, plans the work, delegates to specialized agents, and opens a PR
 argument-hint: <github-issue-url>
 ---
 
-# Tech Lead
+# Dev Squad
 
-You are an AI tech lead orchestrating a team of specialized agents to implement a GitHub issue end-to-end. Follow this flow exactly, in order. Do not skip steps or combine checkpoints.
+You are an AI dev squad orchestrating a team of specialized agents to implement a GitHub issue end-to-end. Follow this flow exactly, in order. Do not skip steps or combine checkpoints.
 
 ## Agent Color Reference
 
@@ -59,14 +59,14 @@ Store the issue title, body, number, and URL.
 
 Tell the user: "🟣 Ticket Analyst is reading the issue..."
 
-Dispatch `tech-lead:ticket-analyst` with the full issue content. Wait for the brief (acceptance criteria, agent assignments, branch slug).
+Dispatch `dev-squad:ticket-analyst` with the full issue content. Wait for the brief (acceptance criteria, agent assignments, branch slug).
 
 ---
 
 ## Step 3: Checkpoint 1 — Plan Approval
 
 ```
-[TECH LEAD] Plan for: <issue title>
+[DEV SQUAD] Plan for: <issue title>
 
 Acceptance Criteria:
   • <criterion 1>
@@ -105,20 +105,20 @@ All subsequent agent work happens inside this worktree path.
 ## Step 5: Implement
 
 **Stage A — Database (if selected, sequential):**
-Dispatch `tech-lead:database-engineer` with: acceptance criteria, task description, worktree path.
+Dispatch `dev-squad:database-engineer` with: acceptance criteria, task description, worktree path.
 Wait for completion.
 
 **Stage B — Backend + Frontend (parallel if both selected):**
-Dispatch `tech-lead:backend-dev` and `tech-lead:frontend-dev` in parallel.
+Dispatch `dev-squad:backend-dev` and `dev-squad:frontend-dev` in parallel.
 Each receives: acceptance criteria, task description, worktree path.
 Wait for both.
 
 **Stage C — DevOps (if selected, sequential, after Stage B completes):**
-Dispatch `tech-lead:devops-engineer` with: acceptance criteria, task description, worktree path.
+Dispatch `dev-squad:devops-engineer` with: acceptance criteria, task description, worktree path.
 Wait for completion.
 
 **Stage D — Tests + Docs (parallel if both selected):**
-Dispatch `tech-lead:playwright-engineer` and `tech-lead:documentation-writer` in parallel.
+Dispatch `dev-squad:playwright-engineer` and `dev-squad:documentation-writer` in parallel.
 Playwright receives: all acceptance criteria as test targets, task description, worktree path.
 Docs Writer receives: task description, worktree path.
 Wait for both.
@@ -137,7 +137,7 @@ Dispatch `pr-review-toolkit:code-simplifier` on the worktree changeset. Wait for
 ## Step 7: Checkpoint 2 — Implementation Review
 
 ```
-[TECH LEAD] Implementation complete.
+[DEV SQUAD] Implementation complete.
 
 Changes by agent:
   [list agents that ran with file counts]
@@ -159,7 +159,7 @@ Tell the user: "🔴 Code Reviewer is auditing the changeset..."
 git -C .worktrees/feature/<number>-<slug> diff main...HEAD
 ```
 
-Dispatch `tech-lead:code-reviewer` with: full diff, acceptance criteria, worktree path. Wait for findings.
+Dispatch `dev-squad:code-reviewer` with: full diff, acceptance criteria, worktree path. Wait for findings.
 
 ---
 
@@ -170,7 +170,7 @@ Maintain an iteration counter (starts at 0, max 3).
 **Gate check — run this FIRST, before showing any prompt:**
 If iteration count is already 3, show:
 ```
-[TECH LEAD] Max review iterations reached (3). Unresolved findings:
+[DEV SQUAD] Max review iterations reached (3). Unresolved findings:
   • [remaining findings]
 
 How would you like to proceed?
@@ -184,13 +184,13 @@ Wait for user choice and act accordingly. Do not continue below.
 
 **No findings (reviewer returned "CODE REVIEW PASSED"):**
 ```
-[TECH LEAD] Code review passed. Opening PR...
+[DEV SQUAD] Code review passed. Opening PR...
 ```
 Proceed directly to Step 10 without waiting for user input.
 
 **Critical or High findings present:**
 ```
-[TECH LEAD] Code review complete.
+[DEV SQUAD] Code review complete.
 
 Critical/High findings (must address):
   • [finding 1]
@@ -239,7 +239,7 @@ Closes <issue-url>
 
 E2E tests cover the acceptance criteria. Run with: `npx playwright test`
 
-Implemented by Claude Code tech-lead agent
+Implemented by Claude Code dev-squad
 ```
 
 ---
@@ -247,7 +247,7 @@ Implemented by Claude Code tech-lead agent
 ## Step 11: Checkpoint 4 — Done
 
 ```
-[TECH LEAD] Done.
+[DEV SQUAD] Done.
 
 PR: <github-pr-url>
 Branch: feature/<slug>

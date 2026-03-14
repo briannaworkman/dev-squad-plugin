@@ -1,11 +1,11 @@
-# tech-lead
+# dev-squad
 
 AI engineering team orchestrator for Claude Code.
 
 ## Usage
 
 ```
-/tech-lead <github-issue-url>
+/dev-squad <github-issue-url>
 ```
 
 Reads the GitHub issue, breaks it into tasks, assigns work to specialized agents, and delivers a GitHub PR.
@@ -33,7 +33,7 @@ Reads the GitHub issue, breaks it into tasks, assigns work to specialized agents
 
 ## Checkpoints
 
-The tech lead pauses for your approval at:
+The dev squad pauses for your approval at:
 1. Plan — before writing any code
 2. Implementation — before code review
 3. Review findings — before opening PR
